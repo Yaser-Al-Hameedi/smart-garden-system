@@ -1,0 +1,22 @@
+# Web framework & server
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Raspberry Pi GPIO (only installs on Linux/Pi)
+RPi.GPIO>=0.7.1; sys_platform == "linux"
+
+# Machine learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+joblib>=1.3.0
+
+# Scheduling
+apscheduler>=3.10.0
+
+# HTTP requests (weather API)
+requests>=2.31.0
+
+# Configuration
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0

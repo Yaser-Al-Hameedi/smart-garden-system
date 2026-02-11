@@ -1,3 +1,10 @@
+# Smart Garden System
+data/*.db
+data/*.db-journal
+trained_models/*.pkl
+trained_models/*.json
+trained_models/*.xgb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
