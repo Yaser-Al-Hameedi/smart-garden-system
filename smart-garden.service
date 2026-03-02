@@ -1,0 +1,14 @@
+[Unit]
+Description=Smart Garden System
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/smart-garden-system
+ExecStart=/home/pi/smart-garden-system/venv/bin/uvicorn src.api.app:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=10
+EnvironmentFile=/home/pi/smart-garden-system/.env
+
+[Install]
+WantedBy=multi-user.target
