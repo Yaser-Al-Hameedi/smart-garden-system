@@ -13,13 +13,13 @@ class WeatherClient():
     
     def fetch_and_save(self):
         
-        url = f"https://api.openweathermap.org/data/3.0/onecall?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units=metric"
+        url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units=metric"
         response = requests.get(url)
         json_dict = response.json()
 
-        temperature = json_dict["current"]["temp"]
-        humidity = json_dict["current"]["humidity"]
-        rain_probability = json_dict["hourly"][0]["pop"]
-        description = json_dict["current"]["weather"][0]["description"]
+        temperature = json_dict["main"]["temp"]
+        humidity = json_dict["main"]["humidity"]
+        rain_probability = json_dict.get("rain", {}).get("1h", 0.0) / 100
+        description = json_dict["weather"][0]["description"]
 
         self.db.save_weather_data(temperature, humidity, rain_probability, description)

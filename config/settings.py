@@ -28,10 +28,13 @@ class Settings(BaseSettings):
 
     # --- ML Model ---
     model_path: str = str(BASE_DIR / "trained_models")
+    plant_type: int = 1  # 0=Low, 1=Medium, 2=High water need
+    pump_flow_rate: float = 52.0  # ml per second
 
     model_config = {
         "env_file": str(BASE_DIR / ".env"),
         "env_file_encoding": "utf-8",
+        "protected_namespaces": ("settings_",),
     }
 
 

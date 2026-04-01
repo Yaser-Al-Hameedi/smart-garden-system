@@ -6,7 +6,7 @@ class MockSoilMoistureSensor(BaseSensor):
         pass
 
     def read(self):
-        return random.uniform(300, 800)
+        return random.uniform(0, 600)
 
 class MockTemperatureSensor(BaseSensor):
     def __init__(self):
