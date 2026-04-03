@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
     # --- Platform ---
-    is_raspberry_pi: bool = platform.system() == "Linux" and platform.machine().startswith("arm")
+    is_raspberry_pi: bool = platform.system() == "Linux" and (platform.machine().startswith("arm") or platform.machine().startswith("aarch"))
 
     # --- Database ---
     database_path: str = str(BASE_DIR / "data" / "garden.db")
