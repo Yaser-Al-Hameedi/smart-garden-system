@@ -12,6 +12,7 @@ class RealMoistureSensor(BaseSensor):
     def __init__(self, pin):
         self.pin = pin
         try:
+            GPIO.setwarnings(False)
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.pin, GPIO.IN)
         except Exception:
