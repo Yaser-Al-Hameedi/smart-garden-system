@@ -1,27 +1,29 @@
 from src.sensors.base import BaseSensor
+import time
 
 try:
-    import RPi.GPIO as GPIO
-    from w1thermsensor import W1ThermSensor
+    import spidev
     import smbus2
+    from w1thermsensor import W1ThermSensor
 except ImportError:
     pass
 
 
 class RealMoistureSensor(BaseSensor):
-    def __init__(self, pin):
-        self.pin = pin
+    def __init__(self, channel=0):
+        self.channel = channel
         try:
-            GPIO.setwarnings(False)
-            GPIO.setmode(GPIO.BCM)
-            GPIO.setup(self.pin, GPIO.IN)
+            self.spi = spidev.SpiDev()
+            self.spi.open(0, 0)
+            self.spi.max_speed_hz = 1350000
         except Exception:
-            self.pin = None
+            self.spi = None
 
     def read(self):
-        if self.pin is None:
+        if self.spi is None:
             return 0.0
-        return GPIO.input(self.pin) * 1023
+        adc = self.spi.xfer2([1, (8 + self.channel) << 4, 0])
+        return ((adc[1] & 3) << 8) + adc[2]
 
 
 class RealTemperatureSensor(BaseSensor):
@@ -48,7 +50,7 @@ class RealLightSensor(BaseSensor):
     def read(self):
         if self.bus is None:
             return 0.0
-        data = self.bus.read_i2c_block_data(self.address, 0x20, 2)
-        return (data[0] * 256 + data[1]) / 1.2
-        
-
+        self.bus.write_byte(self.address, 0x20)
+        time.sleep(0.2)
+        data = self.bus.read_i2c_block_data(self.address, 0x00, 2)
+        return (data[0] << 8 | data[1]) / 1.2

@@ -4,6 +4,7 @@ uvicorn>=0.24.0
 
 # Raspberry Pi GPIO (only installs on Linux/Pi)
 RPi.GPIO>=0.7.1; sys_platform == "linux"
+spidev>=3.5; sys_platform == "linux"
 
 # Machine learning
 scikit-learn>=1.3.0

@@ -10,7 +10,7 @@ class SensorCollector():
         self.db = db
 
         if settings.is_raspberry_pi:
-            self.moisture = RealMoistureSensor(pin=10)
+            self.moisture = RealMoistureSensor(channel=0)
             self.temperature = RealTemperatureSensor()
             self.light = RealLightSensor()
         else:
