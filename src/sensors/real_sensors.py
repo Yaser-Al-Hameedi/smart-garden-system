@@ -50,7 +50,7 @@ class RealLightSensor(BaseSensor):
     def read(self):
         if self.bus is None:
             return 0.0
-        self.bus.write_byte(self.address, 0x20)
+        self.bus.write_byte(self.address, 0x10)
         time.sleep(0.2)
         data = self.bus.read_i2c_block_data(self.address, 0x00, 2)
         return (data[0] << 8 | data[1]) / 1.2
