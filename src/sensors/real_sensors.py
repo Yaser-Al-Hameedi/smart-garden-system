@@ -1,11 +1,10 @@
 from src.sensors.base import BaseSensor
 import time
+import glob
 
 try:
     import spidev
     import smbus2
-    import glob
-    from w1thermsensor import W1ThermSensor
 except ImportError:
     pass
 
@@ -28,39 +27,26 @@ class RealMoistureSensor(BaseSensor):
 
 
 class RealTemperatureSensor(BaseSensor):
-    base_dir = '/sys/bus/w1/devices/'
-    device_folder = glob.glob(base_dir + '28-*')[0]
-    device_file = device_folder + '/w1_slave'
-
-    def read():
-        with open(device_file, 'r') as f:
-            lines = f.readlines()
-
-        if lines[0].strip()[-3:] != 'YES':
-            return None
-
-        equals_pos = lines[1].find('t=')
-        if equals_pos != -1:
-            temp_string = lines[1][equals_pos+2:]
-            temp_c = float(temp_string) / 1000.0
-            return temp_c
-    '''
-    
     def __init__(self):
-        try:
-            self.w1 = W1ThermSensor()
-        except Exception:
-            self.w1 = None
+        matches = glob.glob('/sys/bus/w1/devices/28-*/w1_slave')
+        self.device_file = matches[0] if matches else None
 
     def read(self):
-        if self.w1 is None:
+        if self.device_file is None:
             return 0.0
         try:
-            return self.w1.get_temperature()
+            with open(self.device_file, 'r') as f:
+                lines = f.readlines()
+            if lines[0].strip()[-3:] != 'YES':
+                return 0.0
+            equals_pos = lines[1].find('t=')
+            if equals_pos != -1:
+                return float(lines[1][equals_pos + 2:]) / 1000.0
         except Exception:
             return 0.0
+        return 0.0
 
-'''
+
 class RealLightSensor(BaseSensor):
     def __init__(self, address=0x23):
         try:
