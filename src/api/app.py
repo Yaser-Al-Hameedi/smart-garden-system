@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from src.database.manager import DatabaseManager
 from src.pump.controller import PumpController
 from config.settings import settings
+from pathlib import Path
+
+STATIC_DIR = Path(__file__).resolve().parent.parent.parent / "static"
 
 app = FastAPI()
 
@@ -16,6 +21,12 @@ app.add_middleware(
 db = DatabaseManager(settings.database_path)
 db.init_db()
 pump = PumpController(db)
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+@app.get("/")
+def index():
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/api/sensors/current")
