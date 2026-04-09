@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     database_path: str = str(BASE_DIR / "data" / "garden.db")
 
     # --- Sensor intervals (in minutes) ---
-    sensor_read_interval: int = 1
+    sensor_read_interval: float = 0.5
     weather_fetch_interval: int = 60
 
     # --- Pump safety limits ---
