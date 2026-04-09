@@ -36,7 +36,10 @@ class RealTemperatureSensor(BaseSensor):
     def read(self):
         if self.w1 is None:
             return 0.0
-        return self.w1.get_temperature()
+        try:
+            return self.w1.get_temperature()
+        except Exception:
+            return 0.0
 
 
 class RealLightSensor(BaseSensor):
