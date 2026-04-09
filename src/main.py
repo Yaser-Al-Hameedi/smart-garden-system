@@ -1,7 +1,8 @@
-import time
+import threading
 from config.settings import settings
 from src.database.manager import DatabaseManager
 from src.scheduler.jobs import GardenScheduler
+import uvicorn
 
 
 def main():
@@ -16,10 +17,9 @@ def main():
     scheduler = GardenScheduler(db)
     scheduler.start()
 
-    print("Scheduler running. Press Ctrl+C to stop.")
+    print("Scheduler running. Starting API server on port 8000...")
     try:
-        while True:
-            time.sleep(1)
+        uvicorn.run("src.api.app:app", host="0.0.0.0", port=8000, log_level="warning")
     except KeyboardInterrupt:
         scheduler.stop()
         print("Shutting down.")
