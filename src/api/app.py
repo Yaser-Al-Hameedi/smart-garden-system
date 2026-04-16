@@ -46,7 +46,7 @@ def get_sensor_history(hours: int = 24):
 
 @app.get("/api/weather/current")
 def get_current_weather():
-    rows = db.get_recent_weather_data(hours=1)
+    rows = db.get_recent_weather_data(hours=24)
     if not rows:
         return {}
     row = rows[0]

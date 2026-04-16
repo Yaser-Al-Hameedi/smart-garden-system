@@ -57,11 +57,21 @@
             color: #64748b;
         }
 
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            margin-top: 24px;
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 8px;
         }
 
         .card {
@@ -185,6 +195,7 @@
     </div>
 </header>
 
+<div class="section-label">Sensors</div>
 <div class="grid">
     <div class="card">
         <div class="card-label">Soil Moisture</div>
@@ -196,26 +207,41 @@
     </div>
 
     <div class="card">
-        <div class="card-label">Temperature</div>
+        <div class="card-label">Sensor Temperature</div>
         <div class="card-value" id="temp-value">--<span class="card-unit">°C</span></div>
-        <div class="card-sub" id="weather-temp">Weather: --</div>
+        <div class="card-sub">DS18B20 — indoor sensor</div>
     </div>
 
     <div class="card">
         <div class="card-label">Light</div>
         <div class="card-value" id="light-value">--<span class="card-unit">lux</span></div>
+        <div class="card-sub">BH1750 light sensor</div>
+    </div>
+</div>
+
+<div class="section-label">Weather</div>
+<div class="grid">
+    <div class="card">
+        <div class="card-label">Outdoor Temperature</div>
+        <div class="card-value" id="weather-temp">--<span class="card-unit">°C</span></div>
         <div class="card-sub" id="weather-desc">--</div>
     </div>
 
     <div class="card">
         <div class="card-label">Humidity</div>
         <div class="card-value" id="humidity-value">--<span class="card-unit">%</span></div>
-        <div class="card-sub" id="rain-prob">Rain: --%</div>
+        <div class="card-sub">Outdoor humidity</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label">Rainfall (last 1h)</div>
+        <div class="card-value" id="rain-value">--<span class="card-unit">mm</span></div>
+        <div class="card-sub">From OpenWeatherMap</div>
     </div>
 </div>
 
-<div class="card" style="margin-bottom: 24px;">
-    <div class="section-title">Watering History</div>
+<div class="section-label" style="margin-bottom: 12px;">Watering History</div>
+<div class="card">
     <table>
         <thead>
             <tr>
@@ -270,10 +296,10 @@
 
     function updateWeather(data) {
         if (!data || Object.keys(data).length === 0) return;
-        document.getElementById('weather-temp').textContent = `Weather: ${data.temperature.toFixed(1)}°C`;
+        document.getElementById('weather-temp').innerHTML = `${data.temperature.toFixed(1)}<span class="card-unit">°C</span>`;
         document.getElementById('weather-desc').textContent = data.description;
         document.getElementById('humidity-value').innerHTML = `${data.humidity.toFixed(0)}<span class="card-unit">%</span>`;
-        document.getElementById('rain-prob').textContent = `Rain: ${data.rain_probability.toFixed(0)}%`;
+        document.getElementById('rain-value').innerHTML = `${data.rain_probability.toFixed(1)}<span class="card-unit">mm</span>`;
     }
 
     function updateWaterings(data) {

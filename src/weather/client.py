@@ -19,7 +19,7 @@ class WeatherClient():
 
         temperature = json_dict["main"]["temp"]
         humidity = json_dict["main"]["humidity"]
-        rain_probability = json_dict.get("rain", {}).get("1h", 0.0) / 100
+        rain_probability = json_dict.get("rain", {}).get("1h", 0.0)
         description = json_dict["weather"][0]["description"]
 
         self.db.save_weather_data(temperature, humidity, rain_probability, description)
