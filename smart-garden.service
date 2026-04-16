@@ -3,12 +3,12 @@ Description=Smart Garden System
 After=network.target
 
 [Service]
-User=pi
-WorkingDirectory=/home/pi/smart-garden-system
-ExecStart=/home/pi/smart-garden-system/venv/bin/uvicorn src.api.app:app --host 0.0.0.0 --port 8000
+User=cloudcrop
+WorkingDirectory=/home/cloudcrop/smart-garden-system
+ExecStart=/home/cloudcrop/smart-garden-system/venv/bin/python3 -m src.main
 Restart=always
 RestartSec=10
-EnvironmentFile=/home/pi/smart-garden-system/.env
+EnvironmentFile=/home/cloudcrop/smart-garden-system/.env
 
 [Install]
 WantedBy=multi-user.target
