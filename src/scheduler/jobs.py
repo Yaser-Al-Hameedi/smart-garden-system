@@ -19,6 +19,8 @@ class GardenScheduler:
         self.scheduler.add_job(self.weather.fetch_and_save, 'interval', minutes=settings.weather_fetch_interval)
         self.scheduler.add_job(self.predictor.predict_and_act, 'interval', minutes=settings.sensor_read_interval)
         self.scheduler.start()
+        self.collector.collect()
+        self.weather.fetch_and_save()
 
     def stop(self):
         self.scheduler.shutdown()
