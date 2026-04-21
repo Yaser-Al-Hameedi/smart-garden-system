@@ -234,9 +234,9 @@
     </div>
 
     <div class="card">
-        <div class="card-label">Rainfall (last 1h)</div>
-        <div class="card-value" id="rain-value">--<span class="card-unit">mm</span></div>
-        <div class="card-sub">From OpenWeatherMap</div>
+        <div class="card-label">Rain Probability</div>
+        <div class="card-value" id="rain-value">--<span class="card-unit">%</span></div>
+        <div class="card-sub">Next 3 hours</div>
     </div>
 </div>
 
@@ -299,7 +299,7 @@
         document.getElementById('weather-temp').innerHTML = `${data.temperature.toFixed(1)}<span class="card-unit">°C</span>`;
         document.getElementById('weather-desc').textContent = data.description;
         document.getElementById('humidity-value').innerHTML = `${data.humidity.toFixed(0)}<span class="card-unit">%</span>`;
-        document.getElementById('rain-value').innerHTML = `${data.rain_probability.toFixed(1)}<span class="card-unit">mm</span>`;
+        document.getElementById('rain-value').innerHTML = `${(data.rain_probability * 100).toFixed(0)}<span class="card-unit">%</span>`;
     }
 
     function updateWaterings(data) {

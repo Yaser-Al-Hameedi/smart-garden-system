@@ -12,14 +12,15 @@ class WeatherClient():
         self.api_key = settings.openweather_api_key
     
     def fetch_and_save(self):
-        
-        url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units=metric"
-        response = requests.get(url)
-        json_dict = response.json()
+        current_url = f"https://api.openweathermap.org/data/2.5/weather?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units=metric"
+        forecast_url = f"https://api.openweathermap.org/data/2.5/forecast?lat={self.latitude}&lon={self.longitude}&appid={self.api_key}&units=metric&cnt=1"
 
-        temperature = json_dict["main"]["temp"]
-        humidity = json_dict["main"]["humidity"]
-        rain_probability = json_dict.get("rain", {}).get("1h", 0.0)
-        description = json_dict["weather"][0]["description"]
+        current = requests.get(current_url).json()
+        forecast = requests.get(forecast_url).json()
+
+        temperature = current["main"]["temp"]
+        humidity = current["main"]["humidity"]
+        description = current["weather"][0]["description"]
+        rain_probability = forecast["list"][0]["pop"]
 
         self.db.save_weather_data(temperature, humidity, rain_probability, description)
