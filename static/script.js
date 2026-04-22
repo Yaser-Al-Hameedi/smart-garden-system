@@ -275,7 +275,7 @@ function updateSensorCard(id, value, type) {
     const valueEl  = document.getElementById(`${id}-value`);
     const statusEl = document.getElementById(`${id}-status`);
     const { status, statusClass, color } = updateSensorStatus(value, type);
-    const displayValue = (type === 'moisture') ? Math.round(value / 600 * 100) : value;
+    const displayValue = (type === 'moisture') ? Math.round(value / 600 * 100) : Math.round(value * 10) / 10;
     valueEl.textContent  = displayValue;
     valueEl.style.color  = color;
     statusEl.textContent = status;
