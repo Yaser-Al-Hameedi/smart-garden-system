@@ -307,6 +307,32 @@ function updateWateringTable(data) {
 }
 
 
+// ===== MANUAL WATERING =====
+
+async function manualWater() {
+    const btn = document.getElementById('btn-manual-water');
+    const msg = document.getElementById('water-msg');
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    msg.textContent = 'Watering...';
+    try {
+        const res = await fetch(`${PI_API}/api/watering/manual?duration_seconds=5`, { method: 'POST' });
+        if (res.ok) {
+            msg.textContent = '✅ Done! Watered for 5 seconds.';
+            setTimeout(() => refreshDashboard(), 2000);
+        } else {
+            msg.textContent = '❌ Failed to water.';
+        }
+    } catch (err) {
+        msg.textContent = '❌ Connection error.';
+    } finally {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        setTimeout(() => { msg.textContent = ''; }, 5000);
+    }
+}
+
+
 // ===== WEATHER API =====
 
 const WEATHER_API_KEY = '143a23e749199fbc8a824789dad93646';
